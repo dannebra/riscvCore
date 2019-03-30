@@ -1,2 +1,2 @@
-Project RISC-V core
-=======================
+Anhyzer core
+==================
