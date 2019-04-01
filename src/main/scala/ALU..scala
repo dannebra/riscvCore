@@ -13,12 +13,21 @@ class ALU extends Module {
   })
 
 io.result := 0.U 
-io.zero := 0.U
+val shamt = io.in2(24, 20).asUInt
 
 switch(io.aluop) {
   is(0.U) { io.result := io.in1 & io.in2 } // AND
   is(1.U) { io.result := io.in1 | io.in2 } // OR
   is(2.U) { io.result := io.in1 + io.in2 } // ADD
+  is(3.U) { io.result := io.in1 << shamt } // SLL
+  is(4.U) { io.result := io.in1.asSInt < io.in2.asSInt } // SLT
+  is(5.U) { io.result := io.in1 ^ io.in2 } // XOR
   is(6.U) { io.result := io.in1 - io.in2 } // SUB
-  } 
+  is(7.U) { io.result := io.in1 >> shamt } // SRL
+  is(8.U) { io.result := io.in1 < io.in2} // SLTU
+  is(9.U) { io.result := (io.in1.asSInt >> shamt).asUInt } // SRA
+  }
+
+io.zero := io.result === 0.U
+
 }
