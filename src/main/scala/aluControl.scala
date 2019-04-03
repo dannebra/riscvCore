@@ -6,7 +6,7 @@ import chisel3.util._
 class aluControl extends Module {
   val io = IO(new Bundle {
     val aluop      = Input(UInt(3.W))
-    val funct7     = Input(UInt(7.W))
+    val funct7     = Input(Bool())
     val funct3     = Input(UInt(3.W))
     val output     = Output(UInt(5.W))
   })
@@ -37,8 +37,7 @@ class aluControl extends Module {
           }
       }
       is("b010".U) { // R-type
-          switch(io.funct7) {
-              is("b0000000".U) {
+          when(!io.funct7) {
                   switch(io.funct3) {
                       is("b000".U) { io.output := "b00010".U } // ADD
                       is("b001".U) { io.output := "b00011".U } // SLL
@@ -49,13 +48,12 @@ class aluControl extends Module {
                       is("b110".U) { io.output := "b00001".U } // OR
                       is("b111".U) { io.output := "b00000".U } // AND
                   }
-              }
-              is("b0100000".U) {
+          }
+          .otherwise {
                   switch(io.funct3) {
                       is("b000".U) { io.output := "b00110".U } // SUB
                       is("b101".U) { io.output := "b01001".U } // SRA
                   }
-              }
           }
       }
       is("b011".U) { // I-type
@@ -68,7 +66,7 @@ class aluControl extends Module {
               is("b111".U) { io.output := "b00000".U } // ANDI
               is("b001".U) { io.output := "b00011".U } // SLLI
               is("b101".U) {
-                  when(io.funct7 === "b0000000".U) { 
+                  when(io.funct7 === "b0".U) { 
                       io.output := "b00111".U // SRLI
                       }
                       .otherwise {
