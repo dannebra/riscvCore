@@ -14,9 +14,6 @@ class DataMemory extends Module {
 
   val memory = Mem(1024, UInt(32.W))
   io.readDataOutput := 0.U
-  when ( io.memRead )  { io.readDataOutput := memory(readAddress) }
-  when ( io.memWrite ) { memory(readAddress) := io.writeData }
-   
-
-  }
+  when ( io.memRead )  { io.readDataOutput := memory(io.readAddress) }
+  when ( io.memWrite ) { memory(io.readAddress) := io.writeData }
 }
