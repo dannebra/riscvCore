@@ -14,7 +14,7 @@ class ALU extends Module {
 
 io.result := 0.U 
 io.zero := 0.U
-val shamt = io.in2(24, 20).asUInt // Immediate field of R-type instructions [24:20]
+val shamt = io.in2(4, 0).asUInt // shift amount is encoded in the lower 5 bits
 
 switch(io.aluop) {
   is(0.U) { io.result := io.in1 & io.in2 } // AND
