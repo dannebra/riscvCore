@@ -13,9 +13,13 @@ class Control extends Module {
     val memRead      = Output(Bool())
     val memWrite     = Output(Bool())
     val aluOp        = Output(UInt(3.W))
+    val aluSrc1      = Output(Bool())
+    val aluSrc2      = Output(UInt(2.W))
   })
 
-io.aluSrc := 0.U
+io.aluSrc := 0.U // TEMP
+io.aluSrc1 := 0.U 
+io.aluSrc2 := 0.U
 io.memToReg := 0.U
 io.regWrite := 0.U
 io.memRead := 0.U
