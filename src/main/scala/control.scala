@@ -65,5 +65,16 @@ io.jump := 0.U // Input to PC = jump output
         io.regWrite := 1.U
         io.aluOp := "b011".U
         }
+      is("b0110111".U) { // LUI
+        io.aluSrc1 := 2.U
+        io.memToReg := 1.U
+        io.aluOp := "b111".U
+      }
+      is("b0010111".U) { // AUIPC
+        io.aluSrc1 := 1.U
+        io.aluSrc2 := 3.U
+        io.memToReg := 1.U
+        io.aluOp := "b101".U
+      }
   }
 }

@@ -27,6 +27,6 @@ switch(io.aluop) {
   is(7.U) { io.result := io.in1 >> shamt } // SRL/SRLI
   is(8.U) { io.result := io.in1 < io.in2} // SLTU
   is(9.U) { io.result := (io.in1.asSInt >> shamt).asUInt } // SRA
-  is(16.U) { io.zero := 1.U } // JAL/JALR
+  is(10.U){ io.result := io.in1} // LUI
   }
 }

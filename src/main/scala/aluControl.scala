@@ -53,5 +53,7 @@ class aluControl extends Module {
                   }      
           }
       }
+      is("b111".U) { io.output := "b01010".U} // LUI
+      is("b101".U) { io.output := "b00010".U} // AUIPC
   }
 }

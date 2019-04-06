@@ -12,10 +12,5 @@ class InstructionMemory extends Module {
     val writeRegFile          = Output(UInt(5.W))
     val aluControlFunct7      = Output(Bool())
     val aluControlFunct3      = Output(UInt(3.W))
-    val toUtExtend            = Output(UInt(20.W))
-    val toIExtend             = Output(UInt(12.W))
-    val toSExtend             = Output(UInt(12.W))
-    val toBExtendUp           = Output(UInt(7.W))
-    val toBExtendLow          = Output(UInt(5.W))
   })
 }
