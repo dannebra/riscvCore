@@ -27,12 +27,6 @@ switch(io.aluop) {
   is(7.U) { io.result := io.in1 >> shamt } // SRL/SRLI
   is(8.U) { io.result := io.in1 < io.in2} // SLTU
   is(9.U) { io.result := (io.in1.asSInt >> shamt).asUInt } // SRA
-  is(10.U) { io.zero := io.in1.asSInt === io.in2.asSInt } // BEQ
-  is(11.U) { io.zero := io.in1.asSInt =/= io.in2.asSInt } // BNEQ
-  is(12.U) { io.zero := io.in1.asSInt < io.in2.asSInt } // BLT
-  is(13.U) { io.zero := io.in1.asSInt >= io.in2.asSInt } // BGE
-  is(14.U) { io.zero := io.in1 < io.in2 } // BLTU
-  is(15.U) { io.zero := io.in1 >= io.in2 } // BGEU
   is(16.U) { io.zero := 1.U } // JAL/JALR
   }
 }

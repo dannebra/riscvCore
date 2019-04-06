@@ -14,28 +14,6 @@ class aluControl extends Module {
 
   switch(io.aluop) {
       is("b000".U) { io.output := "b00010".U } // Load/store
-      is("b001".U) { // Branch
-          switch(io.funct3) {
-              is("b000".U) {
-                  io.output := "b01010".U // BEQ
-              }
-              is("b001".U) {
-                  io.output := "b01001".U // BNE
-              }
-              is("b100".U) {
-                  io.output := "b01100".U // BLT
-              }
-              is("b101".U) {
-                  io.output := "b01101".U // BGE
-              } 
-              is("b110".U) {
-                  io.output := "b01110".U // BLTU
-              }
-              is("b111".U) {
-                  io.output := "b01111".U // BGEU
-              }
-          }
-      }
       is("b010".U) { // R-type
           when(!io.funct7) {
                   switch(io.funct3) {
@@ -75,6 +53,5 @@ class aluControl extends Module {
                   }      
           }
       }
-      is("b101".U) { io.output := "10000".U } // Unconditional jump
   }
 }
