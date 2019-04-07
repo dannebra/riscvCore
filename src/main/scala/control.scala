@@ -33,7 +33,7 @@ io.jumpReg := 0.U // input to PC = jumpreg output
 io.jump := 0.U // Input to PC = jump output
 
   switch(io.opcode) {
-      is("b0010011".U) { // R-type
+      is("b0110011".U) { // R-type
         io.regWrite := 1.U
         io.aluOp := "b010".U
       }
@@ -52,28 +52,28 @@ io.jump := 0.U // Input to PC = jump output
       is("b1100011".U) { // Branch
         io.branch := 1.U
       }
-       is("b1100111".U) { // JALR
+      is("b1100111".U) { // JALR
         io.jumpReg := 1.U
         io.writeSrc := 1.U
       }
-        is("b1101111".U) { // JAL/Jump
+      is("b1101111".U) { // JAL/Jump
           io.jump := 1.U
           io.writeSrc := 1.U
-        }
+      }
       is("b0010011".U) { // I-type
         io.aluSrc2 := 1.U
         io.regWrite := 1.U
         io.aluOp := "b011".U
-        }
+      }
       is("b0110111".U) { // LUI
-        io.aluSrc1 := 2.U
-        io.memToReg := 1.U
+        io.aluSrc1 := 1.U
+        io.regWrite := 1.U
         io.aluOp := "b111".U
       }
       is("b0010111".U) { // AUIPC
         io.aluSrc1 := 1.U
         io.aluSrc2 := 3.U
-        io.memToReg := 1.U
+        io.regWrite := 1.U
         io.aluOp := "b101".U
       }
   }
