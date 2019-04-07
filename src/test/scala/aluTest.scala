@@ -1,33 +1,47 @@
+// Unit tests for the ALU
 package scala
 
-import Chisel._
-import Chisel.iotesters.{SteppedHWIOTester, ChiselFlatSpec}
+import chisel3._
 
+import chisel3.iotesters
+import chisel3.iotesters.{ChiselFlatSpec, Driver, PeekPokeTester}
 
-class ALUTest extends SteppedHWIOTester {
-  val device_under_test = Module( new ALU() )
-  val c = device_under_test
-  enable_all_debug = true
-  
-  poke(c.io.in1, 2)
-  poke(c.io.in2, 2)
-  poke(c.io.aluop, 0)
-  expect(c.io.result, 2 & 2)
-  step(1)
-  poke(c.io.in1, 3)
-  poke(c.io.in2, 3)
-  poke(c.io.aluop, 5)
-  expect(c.io.result, 3 ^ 3)
-  step(1)
-  poke(c.io.in1, 4)
-  poke(c.io.in2, 4)
-  poke(c.io.aluop, 2)
-  expect(c.io.result, 8)
-  step(1)
+// Tests the ALU (Modified test from Davis In-Order (DINO) CPU model)
+
+class AluUnitTester(c: ALU) extends PeekPokeTester(c) {
+   private val alu = c
+
+  val maxInt = BigInt("FFFFFFFF", 16)
+
+  def test(op: UInt, f: (BigInt, BigInt) => BigInt) {
+    for (i <- 0 until 10) {
+      val x = rnd.nextInt(100000000)
+      val y = rnd.nextInt(500000000)
+      poke(alu.io.aluOp, op)
+      poke(alu.io.in1, x)
+      poke(alu.io.in2, y)
+      step(1)
+      val expectOut = f(x, y).toInt & maxInt
+      expect(alu.io.result, expectOut, s"for operation ${op.toInt.toBinaryString}")
+    }
+  }
+
+  test("b00000".U, (x: BigInt, y: BigInt) => (x & y))
+  test("b00001".U, (x: BigInt, y: BigInt) => (x | y))
+  test("b00010".U, (x: BigInt, y: BigInt) => (x + y))
+  test("b00110".U, (x: BigInt, y: BigInt) => (x - y))
+  test("b00100".U, (x: BigInt, y: BigInt) => (if (x < y) 1 else 0))
+  test("b00100".U, (x: BigInt, y: BigInt) => (if (x < y) 1 else 0))
+  test("b00011".U, (x: BigInt, y: BigInt) => (x << (y.toInt & 0x1f)))
+  test("b00111".U, (x: BigInt, y: BigInt) => (x >> (y.toInt & 0x1f)))
+  test("b01001".U, (x: BigInt, y: BigInt) => (x >> (y.toInt & 0x1f)))
+  test("b00101".U, (x: BigInt, y: BigInt) => (x ^ y))
 }
 
-class ALUTester extends ChiselFlatSpec {
-  "ALU" should "compile and run without incident" in {
-    assertTesterPasses { new ALUTest }
+class AluTester extends ChiselFlatSpec {
+  "ALU" should s"match expectations for each intruction type" in {
+    Driver(() => new ALU) {
+      c => new AluUnitTester(c)
+    } should be (true)
   }
 }
