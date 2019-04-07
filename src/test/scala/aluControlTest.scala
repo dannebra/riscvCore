@@ -7,11 +7,11 @@ import chisel3._
 import chisel3.iotesters
 import chisel3.iotesters.{ChiselFlatSpec, Driver, PeekPokeTester}
 
+// Tests the Alu control unit
 
 class ALUControlUnitTester(c: AluControl) extends PeekPokeTester(c) {
   private val ctl = c
 
-  // Copied from Patterson and Waterman Figure 2.3
   val tests = List(
     // aluOp       Funct7,       Func3,    Output      Input
     ( "b000".U,  "b0000000".U, "b000".U, "b00010".U, "load/store"),
@@ -44,17 +44,6 @@ class ALUControlUnitTester(c: AluControl) extends PeekPokeTester(c) {
   }
 }
 
-/**
-  * This is a trivial example of how to run this Specification
-  * From within sbt use:
-  * {{{
-  * testOnly dinocpu.ALUControlTester
-  * }}}
-  * From a terminal shell use:
-  * {{{
-  * sbt 'testOnly dinocpu.ALUControlTester'
-  * }}}
-  */
 class ALUControlTester extends ChiselFlatSpec {
   "ALUControl" should s"match expectations for each intruction type" in {
     Driver(() => new AluControl) {
