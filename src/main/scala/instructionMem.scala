@@ -14,5 +14,5 @@ class InstructionMemory() extends Module { // Should take String file as input
 
   val memory = Mem(1024, UInt(32.W))
   //loadMemoryFromFile(memory, file)
-  io.instruction := memory(io.address)
+  io.instruction := memory(io.address >> 2)
 }

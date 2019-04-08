@@ -5,7 +5,6 @@ import chisel3.util._
 
 class Anhyzer extends Module {
     val io = IO(new CoreIO())
-    io := DontCare
 
     val pc          = RegInit(0.U)
     val pcSelect    = Module(new PcSelect())
