@@ -3,8 +3,11 @@ package scala
 import chisel3._
 import chisel3.util._
 
+// The Anhyzer core
+
 class Anhyzer extends Module {
     val io = IO(new CoreIO())
+    io := DontCare
 
     val pc          = RegInit(0.U)
     val pcSelect    = Module(new PcSelect())
@@ -21,8 +24,10 @@ class Anhyzer extends Module {
     val dataMem     = io.datamem
     val instrMem    = io.instrmem
 
-
+    // Mux from data memory
     val dataMux    = Mux(control.io.memToReg, dataMem.io.readDataOutput, alu.io.result)
+
+    // Mux to register file
     val regFileMux = Mux(control.io.writeSrc, pcPlusFour.io.result, dataMux)
 
     // PC + 4
