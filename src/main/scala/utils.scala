@@ -15,25 +15,25 @@ class Adder extends Module {
 
 class PcSelect extends Module {
     val io = IO(new Bundle {
-        val pc_plus4 = Input(UInt(32.W))
+        val pcPlus4  = Input(UInt(32.W))
         val branch   = Input(UInt(32.W))
         val jump     = Input(UInt(32.W))
         val jalr     = Input(UInt(32.W))
         val output   = Output(UInt(32.W))
 
-        val branch_signal = Input(Bool())
-        val jump_signal = Input(Bool())
-        val jalr_signal = Input(Bool())
+        val branchSignal = Input(Bool())
+        val jumpSignal = Input(Bool())
+        val jalrSignal = Input(Bool())
     })
 
-    when(io.branch_signal) {
+    when(io.branchSignal) {
         io.output := io.branch
     }
-    .elsewhen(io.jump_signal) {
+    .elsewhen(io.jumpSignal) {
         io.output := io.jump
     }
-    .elsewhen(io.jalr_signal) {
+    .elsewhen(io.jalrSignal) {
         io.output := io.jalr
     }
-    .otherwise {io.output := io.pc_plus4}
+    .otherwise {io.output := io.pcPlus4}
 }
