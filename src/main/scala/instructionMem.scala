@@ -13,6 +13,9 @@ class InstructionMemory() extends Module { // Should take String file as input
   })
 
   val memory = Mem(1024, UInt(32.W))
+
+  memory.write(0.U, "b00000000000100010000001110110011".U) // add x1 x2 x7
+  memory.write(1.U, "b00000000000100010000010000110011".U)  // add x1 x2 x8
   //loadMemoryFromFile(memory, file)
   io.instruction := memory(io.address >> 2)
 }

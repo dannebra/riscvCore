@@ -3,10 +3,12 @@ package scala
 import chisel3._
 import chisel3.util._
 
-// The Anhyzer core
+// The core
 
 class Anhyzer extends Module {
-    val io = IO(new CoreIO())
+    val io = IO(new Bundle {
+        val dc = Input(Bool())
+    })
     io := DontCare
 
     val pc          = RegInit(0.U)
@@ -21,8 +23,8 @@ class Anhyzer extends Module {
     val jumpReg     = Module(new JumpReg())
     val regFile     = Module(new RegFile())
     val jumpAdder   = Module(new Adder())
-    val dataMem     = io.datamem
-    val instrMem    = io.instrmem
+    val dataMem     = Module(new DataMemory())
+    val instrMem    = Module(new InstructionMemory())
 
     // Mux from data memory
     val dataMux    = Mux(control.io.memToReg, dataMem.io.readDataOutput, alu.io.result)
@@ -94,7 +96,7 @@ class Anhyzer extends Module {
     pcSelect.io.branch       := branchUnit.io.result
     pcSelect.io.jump         := jumpAdder.io.result
     pcSelect.io.jalr         := jumpReg.io.output
-    pcSelect.io.branchSignal := control.io.branch
+    pcSelect.io.branchSignal := branchLogic.io.result
     pcSelect.io.jumpSignal   := control.io.jump
     pcSelect.io.jalrSignal   := control.io.jumpReg 
 
