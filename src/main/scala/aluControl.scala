@@ -56,4 +56,5 @@ class AluControl extends Module {
       is("b111".U) { io.output := "b01010".U} // LUI
       is("b101".U) { io.output := "b00010".U} // AUIPC
   }
+  printf("ALU-control: aluOp: %d, funct7: %d, funct3: %d, output: %d\n", io.aluOp, io.funct7, io.funct3, io.output)
 }

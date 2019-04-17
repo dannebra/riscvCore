@@ -18,4 +18,6 @@ class DataMemory extends Module {
   when ( io.memWrite ) { 
     dmemory.write(io.readAddress >> 2, io.writeData) 
     }
+    printf("Data memory: readAddress: %d, writeData: %d, memWrite: %d, memRead: %d, readDataOutput: %d\n",
+     io.readAddress, io.writeData, io.memWrite, io.memRead, io.readDataOutput)
 }

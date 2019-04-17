@@ -27,4 +27,6 @@ switch(io.aluOp) {
   is("b01001".U) { io.result := (io.in1.asSInt >> shamt).asUInt } // SRA/SRAI
   is("b01010".U){ io.result := io.in1} // LUI
   }
+
+  printf("ALU: in1: %d, in2: %d, aluOP: %d, result: %d\n", io.in1, io.in2, io.aluOp, io.result)
 }

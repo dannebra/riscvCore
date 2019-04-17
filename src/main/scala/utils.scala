@@ -36,4 +36,7 @@ class PcSelect extends Module {
         io.output := io.jalr
     }
     .otherwise {io.output := io.pcPlus4}
+
+    printf("PC-select: pcPlus4: %d, branch: %d, jump: %d, jalr: %d, brancSignal: %d, jumpSignal: %d, jalrSignal: %d, Output: %d\n",
+            io.pcPlus4, io.branch, io.jump, io.jalr, io.branchSignal, io.jumpSignal, io.jalrSignal, io.output)
 }

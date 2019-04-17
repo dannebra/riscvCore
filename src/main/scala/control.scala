@@ -77,4 +77,5 @@ io.jump := 0.U // Input to PC = jump output
         io.aluOp := "b101".U
       }
   }
+  printf("OPCODE: %d, memtoReg: %d, regWrite: %d, memRead: %d, memWrite: %d, wirteSrc: %d, aluOp: %d, aluSrc1: %d, aluSrc2: %d, branch: %d, jumpReg: %d, jump: %d\n", io.opcode, io.memToReg, io.regWrite, io.memRead, io.memWrite, io.writeSrc, io.aluOp, io.aluSrc1, io.aluSrc2, io.branch, io.jumpReg, io.jump)
 }

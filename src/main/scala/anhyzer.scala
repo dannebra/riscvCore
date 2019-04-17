@@ -7,11 +7,11 @@ import chisel3.util._
 
 class Anhyzer extends Module {
     val io = IO(new Bundle {
-        val dc = Input(Bool())
+        val start = Input(UInt(32.W))
     })
     io := DontCare
 
-    val pc          = RegInit(0.U)
+    val pc          = RegInit(io.start)
     val pcSelect    = Module(new PcSelect())
     val pcPlusFour  = Module(new Adder())
     val alu         = Module(new ALU())
@@ -25,6 +25,9 @@ class Anhyzer extends Module {
     val jumpAdder   = Module(new Adder())
     val dataMem     = Module(new DataMemory())
     val instrMem    = Module(new InstructionMemory())
+    //val swwb        = Module(new Swwb())
+
+    //printf(p"myUInt = $myUInt")
 
     // Mux from data memory
     val dataMux    = Mux(control.io.memToReg, dataMem.io.readDataOutput, alu.io.result)

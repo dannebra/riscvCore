@@ -22,4 +22,5 @@ class BranchLogic extends Module {
         is("b110".U) { io.result := io.reg1 < io.reg2 & io.branch} // BLTU
         is("b111".U) { io.result := io.reg1 >= io.reg2 & io.branch} // BGEU
     }
+  printf("Branch logic: branch: %d, funct3: %d, reg1: %d, reg2: %d, branch?: %d\n", io.branch, io.funct3, io.reg1, io.reg2, io.result)
 }

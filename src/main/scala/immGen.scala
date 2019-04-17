@@ -50,5 +50,7 @@ class ImmGen extends Module {
             io.extendedJ := Cat(Fill(11, sign), io.instr(19, 12), io.instr(20), io.instr(30, 21), 0.U)
         }
     }
+    printf("Immediate generator: I-type: %d, B-type: %d, S-type: %d, U-type: %d, J-extended: %d\n", 
+                              io.extendedI, io.extendedB, io.extendedS, io.extendedU, io.extendedJ)
 
   }
