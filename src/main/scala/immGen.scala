@@ -3,6 +3,8 @@ package scala
 import chisel3._
 import chisel3.util._
 
+// The immediate generator, responsible for sign extending the different immediates.
+
 class ImmGen extends Module {
   val io = IO(new Bundle {
     val instr        = Input(UInt(32.W))

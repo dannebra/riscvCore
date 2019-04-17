@@ -2,6 +2,8 @@ package scala
 
 import chisel3._
 
+// Currently unused.
+
 class CoreIO extends Bundle {
   val instrmem = Module(new InstructionMemory())
   val datamem  = Module(new DataMemory())

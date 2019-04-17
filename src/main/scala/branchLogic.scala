@@ -3,6 +3,8 @@ package scala
 import chisel3._
 import chisel3.util._
 
+// The unit that handles branch logic. Checks wheter or not a branch should be taken.
+
 class BranchLogic extends Module {
   val io = IO(new Bundle {
     val branch       = Input(Bool())

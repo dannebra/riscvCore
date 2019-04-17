@@ -3,6 +3,8 @@ package scala
 import chisel3._
 import chisel3.util._
 
+// The ALU-control responsible for deciding which operation the ALU should execute.
+
 class AluControl extends Module {
   val io = IO(new Bundle {
     val aluOp      = Input(UInt(3.W))

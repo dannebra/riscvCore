@@ -3,6 +3,8 @@ package scala
 import chisel3._
 import chisel3.util._
 
+// The main control unit, responsible for outputing the correct control signals.
+
 class Control extends Module {
   val io = IO(new Bundle {
     val opcode       = Input(UInt(7.W))
@@ -25,7 +27,7 @@ io.regWrite := 0.U // 0 = do not write to reg, 1 = write data to reg
 io.memRead := 0.U // 0 = do not read memory, 1 = read memory
 io.memWrite := 0.U // 0 = do not write to memory, 1 = write to memory
 io.writeSrc := 0.U // 0 = source to write from ALU/mem, 1 = PC+4
-io.aluOp := 0.U // ALU opcodes to ALU control
+io.aluOp := 1.U // ALU opcodes to ALU control (if 1 is outputed - ERROR)
 io.aluSrc1 := 0.U  // 0 = register rs1, 1 = U-type extended
 io.aluSrc2 := 0.U // 0 = register rs2, 1 = I-type extended, 2 = S-type extended, 3 = PC
 io.branch := 0.U // 0 = no branch, 1 = branch
@@ -55,10 +57,12 @@ io.jump := 0.U // Input to PC = jump output
       is("b1100111".U) { // JALR
         io.jumpReg := 1.U
         io.writeSrc := 1.U
+        io.aluOp := "b000".U // Not used
       }
       is("b1101111".U) { // JAL/Jump
           io.jump := 1.U
           io.writeSrc := 1.U
+          io.aluOp := "b000".U // Not used
       }
       is("b0010011".U) { // I-type
         io.aluSrc2 := 1.U
@@ -77,5 +81,5 @@ io.jump := 0.U // Input to PC = jump output
         io.aluOp := "b101".U
       }
   }
-  printf("OPCODE: %d, memtoReg: %d, regWrite: %d, memRead: %d, memWrite: %d, wirteSrc: %d, aluOp: %d, aluSrc1: %d, aluSrc2: %d, branch: %d, jumpReg: %d, jump: %d\n", io.opcode, io.memToReg, io.regWrite, io.memRead, io.memWrite, io.writeSrc, io.aluOp, io.aluSrc1, io.aluSrc2, io.branch, io.jumpReg, io.jump)
+  printf("Control: Opcode: %d, memtoReg: %d, regWrite: %d, memRead: %d, memWrite: %d, wirteSrc: %d, aluOp: %d, aluSrc1: %d, aluSrc2: %d, branch: %d, jumpReg: %d, jump: %d\n", io.opcode, io.memToReg, io.regWrite, io.memRead, io.memWrite, io.writeSrc, io.aluOp, io.aluSrc1, io.aluSrc2, io.branch, io.jumpReg, io.jump)
 }

@@ -3,6 +3,11 @@ package scala
 import chisel3._
 import chisel3.util._
 
+// --- These are utility units ----
+
+
+// Simple adder.
+
 class Adder extends Module {
   val io = IO(new Bundle {
     val in1               = Input(UInt(32.W))
@@ -12,6 +17,8 @@ class Adder extends Module {
 
     io.result := io.in1 + io.in2
   }
+
+// The unit that decides the input to the program counter.
 
 class PcSelect extends Module {
     val io = IO(new Bundle {

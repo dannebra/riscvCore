@@ -3,13 +3,13 @@ package scala
 import chisel3._
 import chisel3.util._
 
-// The core
+// This is the Anhyzer core!
 
 class Anhyzer extends Module {
     val io = IO(new Bundle {
         val start = Input(UInt(32.W))
     })
-    io := DontCare
+    io := DontCare // Start value
 
     val pc          = RegInit(io.start)
     val pcSelect    = Module(new PcSelect())
@@ -25,9 +25,7 @@ class Anhyzer extends Module {
     val jumpAdder   = Module(new Adder())
     val dataMem     = Module(new DataMemory())
     val instrMem    = Module(new InstructionMemory())
-    //val swwb        = Module(new Swwb())
-
-    //printf(p"myUInt = $myUInt")
+    val swwb        = Module(new Swwb())
 
     // Mux from data memory
     val dataMux    = Mux(control.io.memToReg, dataMem.io.readDataOutput, alu.io.result)
@@ -47,18 +45,26 @@ class Anhyzer extends Module {
     // Control
     control.io.opcode := opcode
 
+    // SWWB
+    swwb.io.error := alu.io.error
+    swwb.io.crash := DontCare
+    val rdMux = Mux(swwb.io.error, 0.U, instruction(11, 7)) // 0 or rd from instruction
+
     // Register file
     regFile.io.readReg1  := instruction(19, 15) // rs1
     regFile.io.readReg2  := instruction(24, 20) // rs2
-    regFile.io.writeReg  := instruction(11, 7)  // rd
+    regFile.io.writeReg  := rdMux
     regFile.io.regWrite  := control.io.regWrite
     regFile.io.writeData := regFileMux
+    
 
     // ALU
     val aluMux1 = Mux(control.io.aluSrc1, immGen.io.extendedU, regFile.io.readData1)
     alu.io.in1 := aluMux1
     val src = control.io.aluSrc2
-    val aluMux2 = Mux(src === 1.U, immGen.io.extendedI, Mux(src === 2.U, immGen.io.extendedS, Mux(src === 3.U, pc, regFile.io.readData2)))
+    val aluMux2 = Mux(src === 1.U, immGen.io.extendedI, 
+                  Mux(src === 2.U, immGen.io.extendedS, 
+                  Mux(src === 3.U, pc, regFile.io.readData2)))
     alu.io.in2 := aluMux2
     alu.io.aluOp := aluControl.io.output
 

@@ -4,6 +4,7 @@ import chisel3._
 import chisel3.util._
 
 // The Something Went Wrong Box
+// This is the Anhyzer core's error handler.
 
 class Swwb extends Module {
   val io = IO(new Bundle {
@@ -19,4 +20,5 @@ class Swwb extends Module {
     when(io.error) {
         io.sel := 1.U
     }
+  printf("SWWB: error: %d, crash?: %d, select: %d\n", io.error, io.crash, io.sel)
 }

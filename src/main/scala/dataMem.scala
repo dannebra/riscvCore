@@ -3,6 +3,8 @@ package scala
 import chisel3._
 import chisel3.util._
 
+// This is the data memory!
+
 class DataMemory extends Module {
   val io = IO(new Bundle {
     val readAddress             = Input(UInt(32.W))

@@ -3,6 +3,8 @@ package scala
 import chisel3._
 import chisel3.util._
 
+// The register file, consisting of 32 32-bit registers.
+
 class RegFile extends Module {
     val io = IO(new Bundle {
       val readReg1    = Input(UInt(5.W))
@@ -31,6 +33,6 @@ class RegFile extends Module {
       }
       printf("x%d: %d\n", i.U, registers(i))
     }
-
+  printf("\n")
 }
     
